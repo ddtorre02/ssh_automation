@@ -1,0 +1,30 @@
+#!/bin/bash
+#################################
+# Linux SSH Automation          #
+# This will auto copy the source#
+# ssh key towards the target    #
+# Linux Machine                 #
+#                               #
+# Author:  Daniel Dela Torre    #
+# Contact: dan@delatorre.xyz    #
+# Published Date: Sep 05 2018   #
+#################################
+
+echo '======================================='
+echo 'Enter the target machine [ Linux Only ]'
+echo '======================================='
+echo ''
+echo ''
+printf 'Enter the username: '
+read dist_user
+printf 'Enter the destination host: '
+read dist_host
+ssh-keygen -t rsa
+echo "Please input the $dist_user password:"
+cat /root/.ssh/id_rsa.pub | ssh $dist_user@$dist_host 'cat >> .ssh/authorized_keys'
+ssh $dist_user@$dist_host "chmod 700 .ssh; chmod 640 .ssh/authorized_keys"
+clear
+echo ''
+echo ''
+echo "Successfully added."
+echo "You can try ssh $dist_user@$dist_host 'ls -lah'"
